@@ -34,4 +34,7 @@ public class Cinema extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "manager_id")
     )
     Set<Manager> managers = new HashSet<>();
+
+    @Column(nullable = false)
+    private boolean deleted;
 }

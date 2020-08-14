@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity(name = "user_entity")
 @Getter
@@ -35,10 +35,10 @@ public class User extends BaseEntity {
     private String email;
 
     @Column(nullable = false)
-    private LocalDate birth;
+    private Date dateOfBirth;
 
     @Enumerated(value = EnumType.STRING)
-    private UserType type;
+    private UserType userType;
 
     @Column(nullable = false)
     private boolean deleted;
