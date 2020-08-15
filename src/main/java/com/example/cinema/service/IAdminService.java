@@ -1,6 +1,5 @@
 package com.example.cinema.service;
 
-import com.example.cinema.dto.request.CreateUserRequest;
 import com.example.cinema.dto.response.UserResponse;
 
 import java.util.Set;
