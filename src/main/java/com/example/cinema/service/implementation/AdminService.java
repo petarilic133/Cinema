@@ -47,13 +47,7 @@ public class AdminService implements IAdminService {
 
     private UserResponse mapUserToUserResponse(User user){
         UserResponse userResponse = new UserResponse();
-        if(user.getCustomer() != null){
-            userResponse.setId(user.getCustomer().getId());
-        }else if(user.getAdmin() != null){
-            userResponse.setId(user.getAdmin().getId());
-        }else if(user.getManager() != null){
-            userResponse.setId(user.getManager().getId());
-        }
+        userResponse.setId(user.getAdmin().getId());
         userResponse.setUserType(user.getUserType());
         userResponse.setPhone(user.getPhone());
         userResponse.setEmail(user.getEmail());
