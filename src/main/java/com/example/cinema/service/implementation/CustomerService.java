@@ -1,7 +1,6 @@
 package com.example.cinema.service.implementation;
 
 import com.example.cinema.dto.response.UserResponse;
-import com.example.cinema.entity.Admin;
 import com.example.cinema.entity.Customer;
 import com.example.cinema.entity.User;
 import com.example.cinema.repository.ICustomerRepository;
