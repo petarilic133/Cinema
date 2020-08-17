@@ -26,3 +26,12 @@ insert into cinema_manager(cinema_id, manager_id) values
 ('65b98dc3-710b-4aa7-a99f-669318f03028', 'dd33b2f1-f90a-4f95-bf19-97e4b212c329'),
 ('65b98dc3-710b-4aa7-a99f-669318f03028', '4611ecdc-fd3f-41c9-ab1f-a132306f4e6c'),
 ('60eb2a6a-bfe8-47e4-b39a-f1190262dc23', 'dd33b2f1-f90a-4f95-bf19-97e4b212c329');
+
+insert into movie(id, name, description, duration, genre_type, deleted) values
+('982787eb-63a0-482a-8936-f614923889ab', 'Inception', 'Very exciting.', 140, 'ACTION', 'false'),
+('63d69f0a-6b98-466c-8de8-710478101c00', 'Aquaman', 'A lot of action.', 110, 'ACTION', 'false'),
+('df3ef2b3-e16b-4ee6-a749-f246bf92b12d', 'Matrix', 'Confuing and thrilling.', 100, 'SF', 'false'),
+('c11da362-bc64-46da-81ce-ee9fa9e920e3', 'Notebook', 'Sad and romantic.', 90, 'ROMANCE', 'false'),
+('7ec77dd5-f19c-4233-9c40-f5a0981b392a', 'The Dark Knight', 'The best action movie ever.', 130, 'ACTION', 'false'),
+('b0127403-4662-42d3-a0ef-b819c84191d7', 'The switch', 'Very funny and romantic.', 80, 'COMEDY', 'false'),
+('3a77d2dc-26b6-4db2-85b9-78b88375556a', 'The Lion King', 'For kids.', 70, 'CARTOON', 'false');
