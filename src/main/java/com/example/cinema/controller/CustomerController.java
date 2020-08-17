@@ -1,10 +1,10 @@
 package com.example.cinema.controller;
 
-import com.example.cinema.dto.response.UserResponse;
 import com.example.cinema.service.ICustomerService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -18,17 +18,29 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public UserResponse getCustomer(@PathVariable UUID id) throws Exception{
-        return _customerService.getCustomer(id);
+    public ResponseEntity<?> getCustomer(@PathVariable UUID id) throws Exception{
+        try {
+            return new ResponseEntity<>(_customerService.getCustomer(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
-    public Set<UserResponse> getAllCustomers() throws Exception{
-        return _customerService.getAllCustomers();
+    public ResponseEntity<?> getAllCustomers() throws Exception{
+        try {
+            return new ResponseEntity<>(_customerService.getAllCustomers(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public UserResponse deleteCustomer(@PathVariable UUID id) throws Exception{
-        return _customerService.deleteCustomer(id);
+    public ResponseEntity<?> deleteCustomer(@PathVariable UUID id) throws Exception{
+        try {
+            return new ResponseEntity<>(_customerService.deleteCustomer(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

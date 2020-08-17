@@ -17,3 +17,12 @@ insert into manager(id, user_id) values
 insert into customer(id, user_id) values
 ('408b7730-eb6e-4657-841a-039a3496b20c', 'cf2c415b-2e78-4b3b-90b3-2ef651c40efe'),
 ('14b6fb87-b277-4df9-a145-d7d28e2eb556', 'bf7e722d-e326-4c1f-88fd-77cf762af6b1');
+
+insert into cinema(id, name, address, email, phone, deleted) values
+('65b98dc3-710b-4aa7-a99f-669318f03028', 'Cinestar', 'Bulevar Oslobodjenja 23', 'cinestar@gmail.com', '062/535-634', 'false'),
+('60eb2a6a-bfe8-47e4-b39a-f1190262dc23', 'Cineplexx', 'Heroja Pinkija 16', 'cineplexx@gmail.com', '065/734-634', 'false');
+
+insert into cinema_manager(cinema_id, manager_id) values
+('65b98dc3-710b-4aa7-a99f-669318f03028', 'dd33b2f1-f90a-4f95-bf19-97e4b212c329'),
+('65b98dc3-710b-4aa7-a99f-669318f03028', '4611ecdc-fd3f-41c9-ab1f-a132306f4e6c'),
+('60eb2a6a-bfe8-47e4-b39a-f1190262dc23', 'dd33b2f1-f90a-4f95-bf19-97e4b212c329');
