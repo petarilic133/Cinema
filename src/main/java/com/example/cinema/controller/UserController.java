@@ -1,11 +1,11 @@
 package com.example.cinema.controller;
 
 import com.example.cinema.dto.request.CreateUserRequest;
-import com.example.cinema.dto.response.UserResponse;
 import com.example.cinema.service.IUserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -19,22 +19,38 @@ public class UserController {
     }
 
     @PutMapping
-    public UserResponse updateUser(@RequestBody CreateUserRequest request) throws Exception{
-        return _userService.updateUser(request);
+    public ResponseEntity<?> updateUser(@RequestBody CreateUserRequest request) throws Exception{
+        try {
+            return new ResponseEntity<>(_userService.updateUser(request), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{id}")
-    public UserResponse getUser(@PathVariable UUID id) throws Exception{
-        return _userService.getUser(id);
+    public ResponseEntity<?> getUser(@PathVariable UUID id) throws Exception{
+        try {
+            return new ResponseEntity<>(_userService.getUser(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
-    public Set<UserResponse> getAllUsers() throws Exception{
-        return _userService.getAllUsers();
+    public ResponseEntity<?> getAllUsers() throws Exception{
+        try {
+            return new ResponseEntity<>(_userService.getAllUsers(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public UserResponse deleteUser(@PathVariable UUID id) throws Exception{
-        return _userService.deleteUser(id);
+    public ResponseEntity<?> deleteUser(@PathVariable UUID id) throws Exception{
+        try {
+            return new ResponseEntity<>(_userService.deleteUser(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

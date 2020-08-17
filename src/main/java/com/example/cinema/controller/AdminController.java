@@ -1,10 +1,10 @@
 package com.example.cinema.controller;
 
-import com.example.cinema.dto.response.UserResponse;
 import com.example.cinema.service.IAdminService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -18,17 +18,29 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
-    public UserResponse getAdmin(@PathVariable UUID id) throws Exception{
-        return _adminService.getAdmin(id);
+    public ResponseEntity<?> getAdmin(@PathVariable UUID id) throws Exception{
+        try {
+            return new ResponseEntity<>(_adminService.getAdmin(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
-    public Set<UserResponse> getAllAdmins() throws Exception{
-        return _adminService.getAllAdmins();
+    public ResponseEntity<?> getAllAdmins() throws Exception{
+        try {
+            return new ResponseEntity<>(_adminService.getAllAdmins(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public UserResponse deleteAdmin(@PathVariable UUID id) throws Exception{
-        return _adminService.deleteAdmin(id);
+    public ResponseEntity<?> deleteAdmin(@PathVariable UUID id) throws Exception{
+        try {
+            return new ResponseEntity<>(_adminService.deleteAdmin(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
