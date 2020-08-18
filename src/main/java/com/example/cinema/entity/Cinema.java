@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,5 +39,5 @@ public class Cinema extends BaseEntity {
     private boolean deleted;
 
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Hall> halls = new ArrayList<>();
+    private Set<Hall> halls = new HashSet<>();
 }
