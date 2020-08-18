@@ -58,3 +58,12 @@ insert into projection(id, date, time, price, deleted, hall_id, movie_id) values
 ('70226436-c0f1-4cb3-a1f3-041c8937440a', '2020-09-08', '22:00:00', 350, 'false', '19cf0a6e-69d1-4993-8f87-bf6eb0dcc274', 'b0127403-4662-42d3-a0ef-b819c84191d7'),
 ('2debc01d-b76b-4473-aa0a-1c5660120564', '2020-09-09', '20:00:00', 400, 'false', 'fce9f8d5-2c55-4aee-8ec5-8803cd7d61a0', '3a77d2dc-26b6-4db2-85b9-78b88375556a'),
 ('7700a336-3e95-4363-ad05-4a464264f3e8', '2020-09-09', '21:00:00', 300, 'false', '47f66b21-0586-4013-a670-23c4385a7488', '63d69f0a-6b98-466c-8de8-710478101c00');
+
+insert into customer_projection(customer_id, projection_id) values
+('408b7730-eb6e-4657-841a-039a3496b20c', 'f47321f8-39d7-41ce-8d7d-12cf1ea641c3'),
+('408b7730-eb6e-4657-841a-039a3496b20c', '70226436-c0f1-4cb3-a1f3-041c8937440a'),
+('408b7730-eb6e-4657-841a-039a3496b20c', '7700a336-3e95-4363-ad05-4a464264f3e8'),
+('14b6fb87-b277-4df9-a145-d7d28e2eb556', '944ba7b2-8e59-4466-ba4e-8f75a8a754a8'),
+('14b6fb87-b277-4df9-a145-d7d28e2eb556', '2debc01d-b76b-4473-aa0a-1c5660120564'),
+('14b6fb87-b277-4df9-a145-d7d28e2eb556', '62d23f82-c44c-4e04-85ff-4a8c0abdebe1');
+

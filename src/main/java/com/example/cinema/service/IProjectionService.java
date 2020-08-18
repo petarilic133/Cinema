@@ -1,6 +1,7 @@
 package com.example.cinema.service;
 
 import com.example.cinema.dto.request.CreateProjectionRequest;
+import com.example.cinema.dto.request.ReserveRequest;
 import com.example.cinema.dto.response.ProjectionResponse;
 
 import java.util.Set;
@@ -17,4 +18,12 @@ public interface IProjectionService {
     Set<ProjectionResponse> getAllProjectionsByCinema(UUID id) throws Exception;
 
     Set<ProjectionResponse> getAllProjectionsByMovie(UUID id) throws Exception;
+
+    Set<ProjectionResponse> getAllProjectionsByHall(UUID id) throws Exception;
+
+    ProjectionResponse reserve(ReserveRequest request) throws Exception;
+
+    ProjectionResponse cancelReservation(ReserveRequest request) throws Exception;
+
+    Set<ProjectionResponse> getAllProjectionsByCustomer(UUID id) throws Exception;
 }

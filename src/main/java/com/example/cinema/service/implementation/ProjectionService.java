@@ -1,18 +1,15 @@
 package com.example.cinema.service.implementation;
 
 import com.example.cinema.dto.request.CreateProjectionRequest;
+import com.example.cinema.dto.request.ReserveRequest;
 import com.example.cinema.dto.response.ProjectionResponse;
-import com.example.cinema.entity.Cinema;
-import com.example.cinema.entity.Hall;
-import com.example.cinema.entity.Movie;
-import com.example.cinema.entity.Projection;
-import com.example.cinema.repository.ICinemaRepository;
-import com.example.cinema.repository.IHallRepository;
-import com.example.cinema.repository.IMovieRepository;
-import com.example.cinema.repository.IProjectionRepository;
+import com.example.cinema.entity.*;
+import com.example.cinema.repository.*;
 import com.example.cinema.service.IProjectionService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,11 +25,14 @@ public class ProjectionService implements IProjectionService {
 
     private final ICinemaRepository _cinemaRepository;
 
-    public ProjectionService(IProjectionRepository projectionRepository, IMovieRepository movieRepository, IHallRepository hallRepository, ICinemaRepository cinemaRepository) {
+    private final ICustomerRepository _customerRepository;
+
+    public ProjectionService(IProjectionRepository projectionRepository, IMovieRepository movieRepository, IHallRepository hallRepository, ICinemaRepository cinemaRepository, ICustomerRepository customerRepository) {
         _projectionRepository = projectionRepository;
         _movieRepository = movieRepository;
         _hallRepository = hallRepository;
         _cinemaRepository = cinemaRepository;
+        _customerRepository = customerRepository;
     }
 
     @Override
@@ -82,6 +82,58 @@ public class ProjectionService implements IProjectionService {
         Movie movie = _movieRepository.findOneById(id);
         Set<Projection> projections = _projectionRepository.findAllByMovieAndDeleted(movie, false);
         return projections.stream()
+                .map(projection -> mapProjectionToProjectionResponse(projection))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<ProjectionResponse> getAllProjectionsByHall(UUID id) throws Exception {
+        Hall hall = _hallRepository.findOneById(id);
+        Set<Projection> projections = _projectionRepository.findAllByHallAndDeleted(hall, false);
+        return projections.stream()
+                .map(projection -> mapProjectionToProjectionResponse(projection))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public ProjectionResponse reserve(ReserveRequest request) throws Exception {
+        Customer customer = _customerRepository.findOneById(request.getCustomerId());
+        Projection projection = _projectionRepository.findOneById(request.getProjectionId());
+        if(customer.getProjections().contains(projection)){
+            throw new Exception();
+        }
+        customer.getProjections().add(projection);
+        Customer savedCustomer = _customerRepository.save(customer);
+        projection.getCustomers().add(savedCustomer);
+        _projectionRepository.save(projection);
+        return mapProjectionToProjectionResponse(projection);
+    }
+
+    @Override
+    public ProjectionResponse cancelReservation(ReserveRequest request) throws Exception {
+        Projection projection = _projectionRepository.findOneById(request.getProjectionId());
+        LocalDate now = LocalDate.now();
+        if(projection.getDate().isBefore(now)){
+            throw new Exception();
+        }
+        Customer customer = _customerRepository.findOneById(request.getCustomerId());
+        customer.getProjections().remove(projection);
+        _customerRepository.save(customer);
+        projection.getCustomers().remove(customer);
+        _projectionRepository.save(projection);
+        return mapProjectionToProjectionResponse(projection);
+    }
+
+    @Override
+    public Set<ProjectionResponse> getAllProjectionsByCustomer(UUID id) throws Exception {
+        Customer customer = _customerRepository.findOneById(id);
+        Set<Projection> customersProjections = new HashSet<>();
+        for(Projection p: customer.getProjections()){
+            if(!p.isDeleted()){
+                customersProjections.add(p);
+            }
+        }
+        return customersProjections.stream()
                 .map(projection -> mapProjectionToProjectionResponse(projection))
                 .collect(Collectors.toSet());
     }
