@@ -1,6 +1,7 @@
 package com.example.cinema.controller;
 
 import com.example.cinema.dto.request.CreateProjectionRequest;
+import com.example.cinema.dto.request.GetProjectionsInCinemaForMovieRequest;
 import com.example.cinema.dto.request.ReserveRequest;
 import com.example.cinema.service.IProjectionService;
 import org.springframework.http.HttpStatus;
@@ -68,6 +69,15 @@ public class ProjectionController {
     public ResponseEntity<?> getAllProjectionsByMovie(@PathVariable UUID id) throws Exception{
         try{
             return new ResponseEntity<>(_projectionService.getAllProjectionsByMovie(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/by-cinema-and-movie")
+    public ResponseEntity<?> getAllProjectionsByCinemaAndMovie(@RequestBody GetProjectionsInCinemaForMovieRequest request) throws Exception{
+        try{
+            return new ResponseEntity<>(_projectionService.getAllProjectionsByMovieAndCinema(request), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

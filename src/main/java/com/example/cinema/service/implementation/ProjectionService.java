@@ -1,6 +1,7 @@
 package com.example.cinema.service.implementation;
 
 import com.example.cinema.dto.request.CreateProjectionRequest;
+import com.example.cinema.dto.request.GetProjectionsInCinemaForMovieRequest;
 import com.example.cinema.dto.request.ReserveRequest;
 import com.example.cinema.dto.response.ProjectionResponse;
 import com.example.cinema.entity.*;
@@ -81,6 +82,16 @@ public class ProjectionService implements IProjectionService {
     public Set<ProjectionResponse> getAllProjectionsByMovie(UUID id) throws Exception {
         Movie movie = _movieRepository.findOneById(id);
         Set<Projection> projections = _projectionRepository.findAllByMovieAndDeleted(movie, false);
+        return projections.stream()
+                .map(projection -> mapProjectionToProjectionResponse(projection))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<ProjectionResponse> getAllProjectionsByMovieAndCinema(GetProjectionsInCinemaForMovieRequest request) throws Exception {
+        Movie movie = _movieRepository.findOneById(request.getMovieId());
+        Cinema cinema = _cinemaRepository.findOneById(request.getCinemaId());
+        Set<Projection> projections = _projectionRepository.findAllByHall_CinemaAndMovieAndDeleted(cinema, movie, false);
         return projections.stream()
                 .map(projection -> mapProjectionToProjectionResponse(projection))
                 .collect(Collectors.toSet());
