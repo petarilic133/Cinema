@@ -35,3 +35,12 @@ insert into movie(id, name, description, duration, genre_type, deleted) values
 ('7ec77dd5-f19c-4233-9c40-f5a0981b392a', 'The Dark Knight', 'The best action movie ever.', 130, 'ACTION', 'false'),
 ('b0127403-4662-42d3-a0ef-b819c84191d7', 'The switch', 'Very funny and romantic.', 80, 'COMEDY', 'false'),
 ('3a77d2dc-26b6-4db2-85b9-78b88375556a', 'The Lion King', 'For kids.', 70, 'CARTOON', 'false');
+
+insert into hall(id, mark, capacity, deleted, cinema_id) values
+('5c4dabbb-8b52-485f-b625-4c51ac690088', 'Hall A', 150, 'false', '65b98dc3-710b-4aa7-a99f-669318f03028'),
+('6b19ba5f-dab0-41af-9798-188c5f8a5d19', 'Hall B', 100, 'false', '65b98dc3-710b-4aa7-a99f-669318f03028'),
+('91ebc8e8-be63-445f-9845-807250635ee7', 'Hall C', 50, 'false', '65b98dc3-710b-4aa7-a99f-669318f03028'),
+('d005b504-850e-4ce7-915d-861214b447ff', 'Hall A', 120, 'false', '60eb2a6a-bfe8-47e4-b39a-f1190262dc23'),
+('19cf0a6e-69d1-4993-8f87-bf6eb0dcc274', 'Hall B', 100, 'true', '60eb2a6a-bfe8-47e4-b39a-f1190262dc23'),
+('fce9f8d5-2c55-4aee-8ec5-8803cd7d61a0', 'Hall C', 80, 'false', '60eb2a6a-bfe8-47e4-b39a-f1190262dc23'),
+('47f66b21-0586-4013-a670-23c4385a7488', 'Hall D', 40, 'false', '60eb2a6a-bfe8-47e4-b39a-f1190262dc23');

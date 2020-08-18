@@ -3,7 +3,6 @@ package com.example.cinema.controller;
 import com.example.cinema.dto.request.CreateMovieRequest;
 import com.example.cinema.dto.request.GetAllMoviesByGenreTypeRequest;
 import com.example.cinema.service.IMovieService;
-import com.example.cinema.util.emums.GenreType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
