@@ -25,6 +25,8 @@ public class ProjectionResponse {
 
     private String movieName;
 
+    private String genreType;
+
     private UUID hallId;
 
     private UUID movieId;

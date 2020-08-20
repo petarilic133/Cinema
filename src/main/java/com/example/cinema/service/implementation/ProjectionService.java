@@ -218,6 +218,7 @@ public class ProjectionService implements IProjectionService {
         projectionResponse.setMovieName(projection.getMovie().getName());
         projectionResponse.setHallId(projection.getHall().getId());
         projectionResponse.setMovieId(projection.getMovie().getId());
+        projectionResponse.setGenreType(projection.getMovie().getGenreType().toString());
         return projectionResponse;
     }
 }
