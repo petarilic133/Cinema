@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity(name = "user_entity")
 @Getter
@@ -35,7 +34,7 @@ public class User extends BaseEntity {
     private String email;
 
     @Column(nullable = false)
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     @Enumerated(value = EnumType.STRING)
     private UserType userType;

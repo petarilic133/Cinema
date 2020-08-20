@@ -16,4 +16,6 @@ public interface IHallRepository extends JpaRepository<Hall, UUID> {
     Hall findOneByCinemaAndMarkAndDeleted(Cinema cinema, String mark, boolean deleted);
 
     Set<Hall> findAllByCinemaAndDeleted(Cinema cinema, boolean deleted);
+
+    Set<Hall> findAllByDeleted(boolean deleted);
 }

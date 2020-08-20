@@ -2,8 +2,6 @@ package com.example.cinema.dto.request;
 
 import lombok.Data;
 
-import java.util.Date;
-
 
 @Data
 public class CreateUserRequest {
@@ -20,5 +18,5 @@ public class CreateUserRequest {
 
     private String email;
 
-    private Date dateOfBirth;
+    private String dateOfBirth;
 }

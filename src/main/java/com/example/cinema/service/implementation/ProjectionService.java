@@ -3,6 +3,7 @@ package com.example.cinema.service.implementation;
 import com.example.cinema.dto.request.CreateProjectionRequest;
 import com.example.cinema.dto.request.GetProjectionsInCinemaForMovieRequest;
 import com.example.cinema.dto.request.ReserveRequest;
+import com.example.cinema.dto.request.UpdateProjectionRequest;
 import com.example.cinema.dto.response.ProjectionResponse;
 import com.example.cinema.entity.*;
 import com.example.cinema.repository.*;
@@ -38,10 +39,50 @@ public class ProjectionService implements IProjectionService {
 
     @Override
     public ProjectionResponse createProjection(CreateProjectionRequest request) throws Exception {
+        LocalDate now = LocalDate.now();
+        if(now.isAfter(request.getDate())){
+            throw new Exception();
+        }
         Hall hall = _hallRepository.findOneById(request.getHallId());
         Movie movie = _movieRepository.findOneById(request.getMovieId());
+        Set<Projection> projections = _projectionRepository.findAllByHallAndDeleted(hall, false);
+        for(Projection p: projections){
+            if(p.getDate().equals(request.getDate()) && ((p.getTime().plusMinutes(p.getMovie().getDuration()).isAfter(request.getTime()) && p.getTime().isBefore(request.getTime())) || (request.getTime().plusMinutes(movie.getDuration()).isAfter(p.getTime()) && request.getTime().plusMinutes(movie.getDuration()).isBefore(p.getTime().plusMinutes(p.getMovie().getDuration()))))){
+                throw new Exception();
+            }
+        }
         Projection projection = new Projection();
         projection.setDeleted(false);
+        projection.setDate(request.getDate());
+        projection.setTime(request.getTime());
+        projection.setPrice(request.getPrice());
+        projection.setHall(hall);
+        projection.setMovie(movie);
+        Projection savedProjection = _projectionRepository.save(projection);
+        hall.getProjections().add(savedProjection);
+        _hallRepository.save(hall);
+        movie.getProjections().add(savedProjection);
+        _movieRepository.save(movie);
+        return mapProjectionToProjectionResponse(savedProjection);
+    }
+
+    @Override
+    public ProjectionResponse updateProjection(UpdateProjectionRequest request) throws Exception {
+        LocalDate now = LocalDate.now();
+        if(now.isAfter(request.getDate())){
+            throw new Exception();
+        }
+        Hall hall = _hallRepository.findOneById(request.getHallId());
+        Movie movie = _movieRepository.findOneById(request.getMovieId());
+        Set<Projection> projections = _projectionRepository.findAllByHallAndDeleted(hall, false);
+        for(Projection p: projections){
+            if(p.getDate().equals(request.getDate()) && ((p.getTime().plusMinutes(p.getMovie().getDuration()).isAfter(request.getTime()) && p.getTime().isBefore(request.getTime())) || (request.getTime().plusMinutes(movie.getDuration()).isAfter(p.getTime()) && request.getTime().plusMinutes(movie.getDuration()).isBefore(p.getTime().plusMinutes(p.getMovie().getDuration()))))){
+                if(!p.getId().equals(request.getProjectionId())){
+                    throw new Exception();
+                }
+            }
+        }
+        Projection projection = _projectionRepository.findOneById(request.getProjectionId());
         projection.setDate(request.getDate());
         projection.setTime(request.getTime());
         projection.setPrice(request.getPrice());
@@ -110,7 +151,8 @@ public class ProjectionService implements IProjectionService {
     public ProjectionResponse reserve(ReserveRequest request) throws Exception {
         Customer customer = _customerRepository.findOneById(request.getCustomerId());
         Projection projection = _projectionRepository.findOneById(request.getProjectionId());
-        if(customer.getProjections().contains(projection)){
+        LocalDate now = LocalDate.now();
+        if(customer.getProjections().contains(projection) || projection.getDate().isBefore(now)){
             throw new Exception();
         }
         customer.getProjections().add(projection);
@@ -149,6 +191,21 @@ public class ProjectionService implements IProjectionService {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public Set<ProjectionResponse> getAllPastProjectionsByCustomer(UUID id) throws Exception {
+        Customer customer = _customerRepository.findOneById(id);
+        Set<Projection> pastProjections = new HashSet<>();
+        LocalDate now = LocalDate.now();
+        for(Projection p: customer.getProjections()){
+            if(p.getDate().isBefore(now)){
+                pastProjections.add(p);
+            }
+        }
+        return pastProjections.stream()
+                .map(projection -> mapProjectionToProjectionResponse(projection))
+                .collect(Collectors.toSet());
+    }
+
     private ProjectionResponse mapProjectionToProjectionResponse(Projection projection){
         ProjectionResponse projectionResponse = new ProjectionResponse();
         projectionResponse.setId(projection.getId());
@@ -159,6 +216,8 @@ public class ProjectionService implements IProjectionService {
         projectionResponse.setHallMark(projection.getHall().getMark());
         projectionResponse.setCinemaName(projection.getHall().getCinema().getName());
         projectionResponse.setMovieName(projection.getMovie().getName());
+        projectionResponse.setHallId(projection.getHall().getId());
+        projectionResponse.setMovieId(projection.getMovie().getId());
         return projectionResponse;
     }
 }

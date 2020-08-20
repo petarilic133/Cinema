@@ -11,6 +11,7 @@ import com.example.cinema.service.ICinemaService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -57,11 +58,11 @@ public class CinemaService implements ICinemaService {
     @Override
     public CinemaResponse updateCinema(CreateCinemaRequest request) throws Exception {
         Cinema cinema = _cinemaRepository.findOneByNameAndDeleted(request.getName(), false);
-        if(_cinemaRepository.findOneByEmailAndDeleted(request.getEmail(), false) != null || _cinemaRepository.findOneByEmailAndDeleted(request.getEmail(), false) != null){
+        if((_cinemaRepository.findOneByEmailAndDeleted(request.getEmail(), false) != null && !_cinemaRepository.findOneByEmailAndDeleted(request.getEmail(), false).getId().equals(cinema.getId())) || (_cinemaRepository.findOneByAddressAndDeleted(request.getEmail(), false) != null && !_cinemaRepository.findOneByAddressAndDeleted(request.getEmail(), false).getId().equals(cinema.getId()))){
             throw new Exception();
         }
         cinema.setPhone(request.getPhone());
-        cinema.setEmail(request.getPhone());
+        cinema.setEmail(request.getEmail());
         cinema.setAddress(request.getAddress());
         _cinemaRepository.save(cinema);
         return mapCinemaToCinemaResponse(cinema);
@@ -70,6 +71,21 @@ public class CinemaService implements ICinemaService {
     @Override
     public Set<CinemaResponse> getAllCinemas() throws Exception {
         Set<Cinema> cinemas = _cinemaRepository.findAllByDeleted(false);
+        return cinemas.stream()
+                .map(cinema -> mapCinemaToCinemaResponse(cinema))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<CinemaResponse> getAllCinemasByManager(UUID id) throws Exception {
+        Set<Cinema> allCinemas = _cinemaRepository.findAllByDeleted(false);
+        Manager manager = _managerRepository.findOneById(id);
+        Set<Cinema> cinemas = new HashSet<>();
+        for(Cinema c: allCinemas){
+            if(c.getManagers().contains(manager)){
+                cinemas.add(c);
+            }
+        }
         return cinemas.stream()
                 .map(cinema -> mapCinemaToCinemaResponse(cinema))
                 .collect(Collectors.toSet());

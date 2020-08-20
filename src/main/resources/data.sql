@@ -1,7 +1,7 @@
 insert into user_entity(id, username, password, first_name, last_name, phone, email, date_of_birth, user_type, deleted) values
 ('50f6a1c2-d9b8-4125-8498-5751260163d1', 'admin1', '$2y$12$ObGG.OQ9g3DadAPBw9kUpOOJK.ECOM47VfIY3DOjKpmHdS/E9dJry', 'Darko', 'Milicic', '064/143-423', 'admin1@gmail.com', '1987-04-04', 'ADMIN', 'false'),
 ('ab959313-7e30-4cde-83e0-dd63c22dbfe5', 'admin2', '$2y$12$rp58vd3F9Hwsh.4EMtxLp.VbKAy6UN4RMMzTAq42evJKVNiuV3FJu', 'Bogdan', 'Bogdanovic', '064/167-493', 'admin2@gmail.com', '1985-05-05', 'ADMIN', 'false'),
-('491124ec-13ed-411c-82c4-922444d8a278', 'manager1', '$2y$12$mWTJFnF6cnWF3NQ5Pl1kJuT7P82o4WCu9HLvWPde4diVv041DQ4zS', 'Zoran', 'Tosin', '062/160-493', 'manager1@gmail.com', '1995-06-05', 'MANAGER', 'false'),
+('491124ec-13ed-411c-82c4-922444d8a278', 'manager1', '$2y$12$mWTJFnF6cnWF3NQ5Pl1kJuT7P82o4WCu9HLvWPde4diVv041DQ4zS', 'Zoran', 'Tosic', '062/160-493', 'manager1@gmail.com', '1995-06-05', 'MANAGER', 'false'),
 ('cb370fc1-b2ce-4062-95c0-d8c894996f09', 'manager2', '$2y$12$0mmcKYxkH6zlSoklu7dWvORinXzQ6ZkHTkh5vNmoOyNhQaE20ff4u', 'Dejan', 'Stankovic', '062/167-493', 'manager2@gmail.com', '1991-05-11', 'MANAGER', 'false'),
 ('cf2c415b-2e78-4b3b-90b3-2ef651c40efe', 'customer1', '$2y$12$s06nm9XuTZR95NEHwZSmCumNzDVzGY5VwB6HjpxrGlssnNFVJkuNi', 'Petar', 'Ilic', '061/107-493', 'customer1@gmail.com', '1998-03-11', 'CUSTOMER', 'false'),
 ('bf7e722d-e326-4c1f-88fd-77cf762af6b1', 'customer2', '$2y$12$pShSZ.9CJId9Yap1h8j/LOUOQDmzbwWlhYCI5GsyP.ckql3Kb0xJe', 'Djura', 'Djuric', '062/167-675', 'customer2@gmail.com', '1997-11-12', 'CUSTOMER', 'false');
@@ -47,7 +47,7 @@ insert into hall(id, mark, capacity, deleted, cinema_id) values
 
 insert into projection(id, date, time, price, deleted, hall_id, movie_id) values
 ('62d23f82-c44c-4e04-85ff-4a8c0abdebe1', '2020-09-05', '15:00:00', 250, 'false', '5c4dabbb-8b52-485f-b625-4c51ac690088', '982787eb-63a0-482a-8936-f614923889ab'),
-('f47321f8-39d7-41ce-8d7d-12cf1ea641c3', '2020-09-06', '20:00:00', 350, 'false', '5c4dabbb-8b52-485f-b625-4c51ac690088', '982787eb-63a0-482a-8936-f614923889ab'),
+('f47321f8-39d7-41ce-8d7d-12cf1ea641c3', '2020-07-06', '20:00:00', 350, 'false', '5c4dabbb-8b52-485f-b625-4c51ac690088', '982787eb-63a0-482a-8936-f614923889ab'),
 ('028d18ee-fdc9-45a0-9efc-a49fe2ffa287', '2020-09-06', '12:00:00', 150, 'false', '6b19ba5f-dab0-41af-9798-188c5f8a5d19', '982787eb-63a0-482a-8936-f614923889ab'),
 ('e3b1d43a-863f-41aa-b413-342ec3c6a833', '2020-09-06', '15:00:00', 200, 'true', '6b19ba5f-dab0-41af-9798-188c5f8a5d19', '63d69f0a-6b98-466c-8de8-710478101c00'),
 ('2e8a7788-d1d9-420c-ad95-51d16750fdc8', '2020-09-07', '14:00:00', 200, 'false', '91ebc8e8-be63-445f-9845-807250635ee7', 'df3ef2b3-e16b-4ee6-a749-f246bf92b12d'),

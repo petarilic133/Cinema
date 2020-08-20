@@ -5,11 +5,14 @@ import com.example.cinema.dto.request.UpdateHallRequest;
 import com.example.cinema.dto.response.HallResponse;
 import com.example.cinema.entity.Cinema;
 import com.example.cinema.entity.Hall;
+import com.example.cinema.entity.Manager;
 import com.example.cinema.repository.ICinemaRepository;
 import com.example.cinema.repository.IHallRepository;
+import com.example.cinema.repository.IManagerRepository;
 import com.example.cinema.service.IHallService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,9 +24,12 @@ public class HallService implements IHallService {
 
     private final ICinemaRepository _cinemaRepository;
 
-    public HallService(IHallRepository hallRepository, ICinemaRepository cinemaRepository) {
+    private final IManagerRepository _managerRepository;
+
+    public HallService(IHallRepository hallRepository, ICinemaRepository cinemaRepository, IManagerRepository managerRepository) {
         _hallRepository = hallRepository;
         _cinemaRepository = cinemaRepository;
+        _managerRepository = managerRepository;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class HallService implements IHallService {
     @Override
     public HallResponse updateHall(UpdateHallRequest request) throws Exception {
         Hall hall = _hallRepository.findOneById(request.getHallId());
-        if(_hallRepository.findOneByCinemaAndMarkAndDeleted(hall.getCinema(), request.getMark(), false) != null){
+        if(_hallRepository.findOneByCinemaAndMarkAndDeleted(hall.getCinema(), request.getMark(), false) != null && !_hallRepository.findOneByCinemaAndMarkAndDeleted(hall.getCinema(), request.getMark(), false).getId().equals(hall.getId())){
             throw new Exception();
         }
         hall.setMark(request.getMark());
@@ -68,7 +74,21 @@ public class HallService implements IHallService {
         return halls.stream()
                 .map(hall -> mapHallToHallResponse(hall))
                 .collect(Collectors.toSet());
+    }
 
+    @Override
+    public Set<HallResponse> getAllHallsByManager(UUID id) throws Exception {
+        Manager manager = _managerRepository.findOneById(id);
+        Set<Hall> allHalls = _hallRepository.findAllByDeleted(false);
+        Set<Hall> halls = new HashSet<>();
+        for(Hall hall: allHalls){
+            if(hall.getCinema().getManagers().contains(manager)){
+                halls.add(hall);
+            }
+        }
+        return halls.stream()
+                .map(hall -> mapHallToHallResponse(hall))
+                .collect(Collectors.toSet());
     }
 
     @Override

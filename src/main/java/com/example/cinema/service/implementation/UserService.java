@@ -2,7 +2,12 @@ package com.example.cinema.service.implementation;
 
 import com.example.cinema.dto.request.CreateUserRequest;
 import com.example.cinema.dto.response.UserResponse;
+import com.example.cinema.entity.Cinema;
+import com.example.cinema.entity.Manager;
 import com.example.cinema.entity.User;
+import com.example.cinema.repository.IAdminRepository;
+import com.example.cinema.repository.ICustomerRepository;
+import com.example.cinema.repository.IManagerRepository;
 import com.example.cinema.repository.IUserRepository;
 import com.example.cinema.service.IUserService;
 import org.dozer.DozerBeanMapper;
@@ -19,14 +24,33 @@ public class UserService implements IUserService {
 
     private final IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository) {
+    private final IManagerRepository _managerRepository;
+
+    private final IAdminRepository _adminRepository;
+
+    private final ICustomerRepository _customerRepository;
+
+    public UserService(IUserRepository userRepository, IManagerRepository managerRepository, IAdminRepository adminRepository, ICustomerRepository customerRepository) {
         _userRepository = userRepository;
+        _managerRepository = managerRepository;
+        _adminRepository = adminRepository;
+        _customerRepository = customerRepository;
     }
 
     @Override
     public UserResponse getUser(UUID id) throws Exception {
-        User user = _userRepository.findOneByIdAndDeleted(id, false);
-        return mapUserToUserResponse(user);
+        if(_managerRepository.findOneById(id) != null){
+            Manager manager = _managerRepository.findOneById(id);
+            User user = manager.getUser();
+            return mapUserToUserResponse(user);
+        }else if(_adminRepository.findOneById(id) != null){
+            User user = _adminRepository.findOneById(id).getUser();
+            return mapUserToUserResponse(user);
+        }else if(_customerRepository.findOneById(id) != null){
+            User user = _customerRepository.findOneById(id).getUser();
+            return mapUserToUserResponse(user);
+        }
+        throw new Exception();
     }
 
     @Override
@@ -40,7 +64,6 @@ public class UserService implements IUserService {
     @Override
     public UserResponse updateUser(CreateUserRequest request) throws Exception {
         User user = _userRepository.findOneByUsernameAndDeleted(request.getUsername(), false);
-        user.setDateOfBirth(request.getDateOfBirth());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setPhone(request.getPhone());
@@ -50,10 +73,29 @@ public class UserService implements IUserService {
 
     @Override
     public UserResponse deleteUser(UUID id) throws Exception {
-        User user = _userRepository.findOneById(id);
-        user.setDeleted(false);
-        _userRepository.save(user);
-        return mapUserToUserResponse(user);
+        if(_managerRepository.findOneById(id) != null){
+            Manager manager = _managerRepository.findOneById(id);
+            for(Cinema c: manager.getCinemas()){
+                if(c.getManagers().size() == 1){
+                    throw new Exception();
+                }
+            }
+            User user = manager.getUser();
+            user.setDeleted(true);
+            _userRepository.save(user);
+            return mapUserToUserResponse(user);
+        }else if(_adminRepository.findOneById(id) != null){
+            User user = _adminRepository.findOneById(id).getUser();
+            user.setDeleted(true);
+            _userRepository.save(user);
+            return mapUserToUserResponse(user);
+        }else if(_customerRepository.findOneById(id) != null){
+            User user = _customerRepository.findOneById(id).getUser();
+            user.setDeleted(true);
+            _userRepository.save(user);
+            return mapUserToUserResponse(user);
+        }
+        throw new Exception();
     }
 
     private UserResponse mapUserToUserResponse(User user){

@@ -25,6 +25,10 @@ public class ProjectionResponse {
 
     private String movieName;
 
+    private UUID hallId;
+
+    private UUID movieId;
+
     private int duration;
 
     private double price;

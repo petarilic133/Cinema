@@ -17,5 +17,7 @@ public interface IHallService {
 
     Set<HallResponse> getAllHallsByCinema(UUID id) throws Exception;
 
+    Set<HallResponse> getAllHallsByManager(UUID id) throws Exception;
+
     HallResponse deleteHall(UUID id) throws Exception;
 }

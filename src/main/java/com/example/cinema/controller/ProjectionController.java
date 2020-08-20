@@ -3,6 +3,7 @@ package com.example.cinema.controller;
 import com.example.cinema.dto.request.CreateProjectionRequest;
 import com.example.cinema.dto.request.GetProjectionsInCinemaForMovieRequest;
 import com.example.cinema.dto.request.ReserveRequest;
+import com.example.cinema.dto.request.UpdateProjectionRequest;
 import com.example.cinema.service.IProjectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,16 @@ public class ProjectionController {
         try{
             return new ResponseEntity<>(_projectionService.createProjection(request), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Change date or time", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateProjection(@RequestBody UpdateProjectionRequest request) throws Exception{
+        try{
+            return new ResponseEntity<>(_projectionService.updateProjection(request), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Change date or time", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -105,6 +115,15 @@ public class ProjectionController {
     public ResponseEntity<?> getAllProjectionsByCustomer(@PathVariable UUID id) throws Exception{
         try{
             return new ResponseEntity<>(_projectionService.getAllProjectionsByCustomer(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{id}/customers-past-projections")
+    public ResponseEntity<?> getAllPastProjectionsByCustomer(@PathVariable UUID id) throws Exception{
+        try{
+            return new ResponseEntity<>(_projectionService.getAllPastProjectionsByCustomer(id), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

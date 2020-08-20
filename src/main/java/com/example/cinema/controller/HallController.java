@@ -55,6 +55,15 @@ public class HallController {
         }
     }
 
+    @GetMapping("/{id}/manager")
+    public ResponseEntity<?> getAllHallsByCostumer(@PathVariable UUID id) throws Exception{
+        try {
+            return new ResponseEntity<>(_hallService.getAllHallsByManager(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteHall(@PathVariable UUID id) throws Exception{
         try {

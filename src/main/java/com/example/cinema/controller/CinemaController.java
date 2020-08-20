@@ -55,6 +55,15 @@ public class CinemaController {
         }
     }
 
+    @GetMapping("/{id}/manager")
+    public ResponseEntity<?> getAllCinemasByManager(@PathVariable UUID id) throws Exception{
+        try {
+            return new ResponseEntity<>(_cinemaService.getAllCinemasByManager(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCinema(@PathVariable UUID id) throws Exception{
         try {

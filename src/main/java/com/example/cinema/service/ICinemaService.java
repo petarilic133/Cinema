@@ -17,6 +17,8 @@ public interface ICinemaService {
 
     Set<CinemaResponse> getAllCinemas() throws Exception;
 
+    Set<CinemaResponse> getAllCinemasByManager(UUID id) throws Exception;
+
     CinemaResponse deleteCinema(UUID id) throws Exception;
 
     CinemaResponse setNewManager(SetNewManagerRequest request) throws Exception;
