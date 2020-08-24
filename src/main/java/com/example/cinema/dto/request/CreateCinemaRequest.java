@@ -16,4 +16,6 @@ public class CreateCinemaRequest {
     private String phone;
 
     private UUID managerId;
+
+    private UUID id;
 }

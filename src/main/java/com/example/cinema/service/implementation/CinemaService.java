@@ -57,10 +57,11 @@ public class CinemaService implements ICinemaService {
 
     @Override
     public CinemaResponse updateCinema(CreateCinemaRequest request) throws Exception {
-        Cinema cinema = _cinemaRepository.findOneByNameAndDeleted(request.getName(), false);
-        if((_cinemaRepository.findOneByEmailAndDeleted(request.getEmail(), false) != null && !_cinemaRepository.findOneByEmailAndDeleted(request.getEmail(), false).getId().equals(cinema.getId())) || (_cinemaRepository.findOneByAddressAndDeleted(request.getEmail(), false) != null && !_cinemaRepository.findOneByAddressAndDeleted(request.getEmail(), false).getId().equals(cinema.getId()))){
-            throw new Exception();
-        }
+        Cinema cinema = _cinemaRepository.findOneById(request.getId());
+//        if((_cinemaRepository.findOneByEmailAndDeleted(request.getEmail(), false) != null && !_cinemaRepository.findOneByEmailAndDeleted(request.getEmail(), false).getId().equals(cinema.getId())) || (_cinemaRepository.findOneByAddressAndDeleted(request.getAddress(), false) != null && !_cinemaRepository.findOneByAddressAndDeleted(request.getEmail(), false).getId().equals(cinema.getId()))){
+//            throw new Exception();
+//        }
+        cinema.setName(request.getName());
         cinema.setPhone(request.getPhone());
         cinema.setEmail(request.getEmail());
         cinema.setAddress(request.getAddress());
